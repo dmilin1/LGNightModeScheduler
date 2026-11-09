@@ -1,0 +1,6 @@
+{
+  "name": "io.github.dmilin1.nightmodescheduler.service",
+  "version": "1.0.0",
+  "description": "Night Mode Scheduler background service",
+  "main": "service.js"
+}

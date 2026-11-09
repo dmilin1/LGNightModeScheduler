@@ -1,0 +1,14 @@
+{
+  "id": "io.github.dmilin1.nightmodescheduler",
+  "version": "1.0.0",
+  "vendor": "Dimitrie",
+  "type": "web",
+  "main": "index.html",
+  "title": "Night Mode Scheduler",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "iconColor": "#111C30",
+  "resolution": "1920x1080",
+  "requiredACG": ["public"],
+  "disableBackHistoryAPI": true
+}

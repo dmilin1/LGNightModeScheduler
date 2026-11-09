@@ -1,0 +1,15 @@
+{
+  "id": "io.github.dmilin1.nightmodescheduler.service",
+  "description": "Night Mode Scheduler",
+  "services": [{
+    "name": "io.github.dmilin1.nightmodescheduler.service",
+    "commands": [
+      {"name": "start", "public": true},
+      {"name": "getStatus", "public": true},
+      {"name": "saveConfig", "public": true},
+      {"name": "setManual", "public": true},
+      {"name": "resumeSchedule", "public": true},
+      {"name": "setAutostart", "public": true}
+    ]
+  }]
+}
