@@ -104,13 +104,6 @@ reset the TV's picture settings.
 The app writes only its own data/startup files and uses the TV's settings API.
 It never modifies system partitions or the existing `nightmode.sh` script.
 
-## Homebrew Channel submission
-
-`submission/` contains the package YAML and an honest PR draft. Publish a tested
-release before submitting the YAML to `webosbrew/apps-repo`. Read their current
-[submission rules](https://www.webosbrew.org/develop/guides/publishing/rules/):
-real-TV testing, meaningful human review, and AI-use disclosure are required.
-
 ## License and development
 
 MIT. Codex assisted with implementation and automated testing. See
