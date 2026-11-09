@@ -43,9 +43,8 @@
     if (!draft) return;
     ['enabled', 'manageBrightness'].forEach(function (id) { $(id).setAttribute('aria-checked', String(draft[id])); });
     text('start', timeLabel(draft.start)); text('end', timeLabel(draft.end));
-    text('timeline-day', timeLabel(draft.end)); text('timeline-evening', timeLabel(draft.start));
     text('nightBrightness', draft.nightBrightness); text('dayBrightness', draft.dayBrightness);
-    text('brightness-note', draft.manageBrightness ? 'Scheduling on · brightness follows day and night.' : 'Scheduling off · your brightness stays as it is.');
+    $('brightness-settings').hidden = !draft.manageBrightness;
     $('save').disabled = !dirty || busy; $('discard').disabled = !dirty || busy;
   }
   function render(next) {
@@ -54,30 +53,26 @@
     if (!dirty) draft = copy(state.config);
     var actual = state.actual || {}, blue = actual.eyeComfortMode === 'on';
     var known = actual.eyeComfortMode === 'on' || actual.eyeComfortMode === 'off';
-    document.body.classList.toggle('day', known && !blue);
-    text('mode-title', !known ? 'Waiting for your TV.' : blue ? 'A softer evening.' : 'Hello, clear daylight.');
-    text('mode-description', !known ? 'Picture settings are not available yet.' : blue ? 'Blue light reduction is on. Settle in.' : 'Blue light reduction is off. Enjoy your picture.');
-    text('mode-pill', 'Blue light · ' + (known ? blue ? 'On' : 'Off' : 'Unavailable'));
+    text('blue-toggle', known ? blue ? 'On' : 'Off' : '—');
+    $('blue-toggle').setAttribute('aria-checked', String(blue));
+    // Busy requests are guarded by action(); leave the focused switch enabled.
+    $('blue-toggle').disabled = !known;
     var level = actual.backlight;
     var validLevel = level !== '' && level !== null && level !== undefined && isFinite(Number(level));
-    text('brightness-pill', 'Pixel brightness · ' + (validLevel ? level : 'Unavailable'));
     text('currentBrightness', validLevel ? level : '—');
-    text('startup-pill', 'Startup · ' + (state.autostartEnabled ? 'On' : 'Off'));
-    text('blue-toggle', blue ? 'Turn blue light reduction off' : 'Turn blue light reduction on');
-    $('blue-toggle').disabled = !known || busy;
-    $('dim-now').disabled = !validLevel || busy || Number(level) <= 0;
-    $('brighten-now').disabled = !validLevel || busy || Number(level) >= 100;
-    $('resume').disabled = !state.config.enabled || !state.override || busy;
-    $('autostart').setAttribute('aria-checked', String(state.autostartEnabled));
+    $('dim-now').disabled = !validLevel || Number(level) <= 0;
+    $('brighten-now').disabled = !validLevel || Number(level) >= 100;
     var override = state.override && state.override.until > state.localTime;
-    text('control-status', !state.config.enabled ? 'Manual · schedule paused' : override ? 'Manual override' : 'Following schedule');
-    text('status-label', override ? 'LIVE TV STATUS · MANUAL OVERRIDE' : 'LIVE TV STATUS');
-    text('next-change', !state.config.enabled ? 'Schedule paused. Manual controls are ready.' : override ? 'Manual until ' + dateLabel(state.override.until) : 'Next: blue light ' + (state.nextChange.night ? 'on' : 'off') + ' at ' + dateLabel(state.nextChange.at));
-    text('transition-time', state.nextChange ? dateLabel(state.nextChange.at) : 'Paused');
-    text('picture-mode', actual.dimension ? actual.dimension.pictureMode + ' / ' + actual.dimension.input : 'Unavailable');
-    text('last-checked', state.lastChecked ? dateLabel(state.lastChecked) : 'Not yet');
+    $('resume').disabled = !state.config.enabled || !override || busy;
+    $('autostart').setAttribute('aria-checked', String(state.autostartEnabled));
+    text('control-status', !state.config.enabled ? 'Schedule paused. Manual controls are available.' : override ? 'Manual until ' + dateLabel(state.override.until) : 'Following schedule');
+    text('next-change', !state.config.enabled ? 'Paused' : 'Next change: blue light ' + (state.nextChange.night ? 'on' : 'off') + ' at ' + dateLabel(state.nextChange.at));
+    var dimension = actual.dimension || {};
+    var input = /^hdmi[1-4]/.test(dimension.input || '') ? dimension.input.replace(/^hdmi([1-4])/, 'HDMI $1').replace('_pc', ' (PC)') : 'Current input';
+    var mode = dimension.pictureMode === 'normal' ? 'Standard' : dimension.pictureMode ? dimension.pictureMode.charAt(0).toUpperCase() + dimension.pictureMode.slice(1) : '';
+    text('picture-mode', known ? input + (mode ? ' · ' + mode : '') : 'Reading the TV’s settings…');
     text('clock', dateLabel(state.localTime));
-    text('connection', preview ? 'Preview · simulated TV' : 'Connected · TV local time');
+    text('connection', preview ? 'Simulated TV' : 'Connected');
     $('health-dot').classList.toggle('good', !state.error);
     if (state.error) error(new Error(state.error));
     renderDraft();
@@ -85,10 +80,25 @@
   function change() { dirty = true; renderDraft(); notice('Unsaved changes. Save to apply your schedule.'); }
   function action(job, message) {
     if (busy || !ready) return;
+    var focusBefore = document.activeElement;
     busy = true; document.body.classList.add('busy'); clearError();
     render(state);
     job().then(function (result) { render(result); notice(message); }).catch(error).then(function () {
       busy = false; document.body.classList.remove('busy'); render(state);
+      // Disabling a focused button blurs it on webOS. Restore it after the
+      // request, unless the viewer has moved focus elsewhere in the meantime.
+      var active = document.activeElement;
+      if (focusBefore && focusBefore.tagName === 'BUTTON' &&
+          (active === document.body || active === document.documentElement || active === focusBefore)) {
+        var target = focusBefore;
+        if (target.disabled) {
+          if (target.id === 'dim-now') target = $('brighten-now');
+          else if (target.id === 'brighten-now') target = $('dim-now');
+          else if (target.id === 'save' || target.id === 'discard') target = $('enabled');
+          else target = $('blue-toggle');
+        }
+        if (!target.disabled) target.focus();
+      }
     });
   }
   function poll() {
@@ -118,7 +128,7 @@
       return result;
     }).then(function (result) {
       ready = true; render(result); clearError();
-      notice(preview ? 'Preview mode. Changes affect simulated settings only.' : 'Use the arrows and OK on your remote, or point and click.');
+      notice(preview ? 'Preview only. Changes affect simulated settings.' : 'Arrows to move · OK to select · Back to close');
       $('blue-toggle').focus();
     }).catch(function (err) { error(err); text('connection', 'Setup needs attention'); });
   }
@@ -205,6 +215,5 @@
       }, 100);
     });
   }
-  if (preview) text('preview-label', 'Interactive preview · no TV connection');
   bootstrap();
 }());

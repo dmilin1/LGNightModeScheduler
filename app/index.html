@@ -10,48 +10,53 @@
 <body>
   <main>
     <header>
-      <div class="brand"><img src="icon.svg" alt=""><div><p class="eyebrow">PICTURE, ON YOUR SCHEDULE</p><h1>Night Mode Scheduler</h1></div></div>
-      <div class="clock"><strong id="clock">--:--</strong><span id="connection">Connecting to your TV…</span></div>
+      <h1>Night Mode Scheduler</h1>
+      <div class="connection"><strong id="clock">—</strong><span><i id="health-dot"></i><span id="connection">Connecting…</span></span></div>
     </header>
 
-    <section class="hero" aria-label="Current status">
-      <div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="moon"></div><i></i><i></i><i></i></div>
-      <div class="hero-copy"><p class="eyebrow" id="status-label">LIVE TV STATUS</p><h2 id="mode-title">Getting comfortable.</h2><p id="mode-description">Reading your TV’s picture settings…</p><div class="pills"><span id="mode-pill">Blue light · —</span><span id="brightness-pill">Pixel brightness · —</span><span id="startup-pill">Startup · —</span></div></div>
-      <div class="hero-actions"><button id="blue-toggle" class="primary" disabled>Turn blue light reduction on</button><button id="resume" disabled>Resume schedule</button><p id="next-change">Checking your schedule…</p></div>
-    </section>
-
-    <div class="cards">
-      <section class="card schedule-card">
-        <div class="card-heading"><div><p class="eyebrow">THE DAILY RHYTHM</p><h2>Your schedule</h2></div><button id="enabled" class="switch" role="switch" aria-checked="true" aria-label="Enable schedule" data-config="enabled"><span></span></button></div>
-        <div class="time-row"><div><span class="field-label">Blue light on</span><p>Wind down</p></div><div class="stepper"><button data-time="start" data-step="-15" aria-label="Start 15 minutes earlier">−</button><output id="start">9:00 PM</output><button data-time="start" data-step="15" aria-label="Start 15 minutes later">+</button></div></div>
-        <div class="time-row"><div><span class="field-label">Blue light off</span><p>Start fresh</p></div><div class="stepper"><button data-time="end" data-step="-15" aria-label="End 15 minutes earlier">−</button><output id="end">6:00 AM</output><button data-time="end" data-step="15" aria-label="End 15 minutes later">+</button></div></div>
-        <div class="timeline" aria-hidden="true"><span id="timeline-day">6:00 AM</span><div></div><span id="timeline-evening">9:00 PM</span></div>
-        <p class="hint">Uses the TV’s local time. A manual change lasts until the next scheduled transition.</p>
+    <div class="settings">
+      <section class="current" aria-labelledby="current-heading">
+        <h2 id="current-heading">Current picture</h2>
+        <div class="control-row blue-row">
+          <span id="blue-label">Blue light reduction</span>
+          <button id="blue-toggle" class="state-button" role="switch" aria-checked="false" aria-labelledby="blue-label blue-toggle" disabled>—</button>
+        </div>
+        <div class="control-row">
+          <span>Pixel brightness</span>
+          <div class="stepper brightness">
+            <button id="dim-now" aria-label="Decrease current brightness" disabled>−</button>
+            <output id="currentBrightness" aria-live="polite">—</output>
+            <button id="brighten-now" aria-label="Increase current brightness" disabled>+</button>
+          </div>
+        </div>
+        <p class="context" id="picture-mode">Reading the TV’s settings…</p>
+        <div class="manual-status">
+          <p id="control-status">Connecting…</p>
+          <button id="resume" class="text-button" disabled>Resume schedule</button>
+        </div>
       </section>
 
-      <section class="card brightness-card">
-        <div class="card-heading"><div><p class="eyebrow">AS BRIGHT AS YOU LIKE</p><h2>Pixel brightness</h2></div><button id="manageBrightness" class="switch" role="switch" aria-checked="false" aria-label="Schedule pixel brightness" data-config="manageBrightness"><span></span></button></div>
-        <p class="hint brightness-intro" id="brightness-note">Scheduling off · your brightness stays as it is.</p>
-        <div class="brightness-row"><span class="field-label">At night</span><div class="stepper"><button data-brightness="nightBrightness" data-step="-5" aria-label="Decrease night brightness">−</button><output id="nightBrightness">100</output><button data-brightness="nightBrightness" data-step="5" aria-label="Increase night brightness">+</button></div></div>
-        <div class="brightness-row"><span class="field-label">By day</span><div class="stepper"><button data-brightness="dayBrightness" data-step="-5" aria-label="Decrease day brightness">−</button><output id="dayBrightness">100</output><button data-brightness="dayBrightness" data-step="5" aria-label="Increase day brightness">+</button></div></div>
-        <div class="now-row"><span>Adjust now</span><div class="stepper compact"><button id="dim-now" aria-label="Decrease current pixel brightness">−</button><output id="currentBrightness">—</output><button id="brighten-now" aria-label="Increase current pixel brightness">+</button></div></div>
-        <p class="hint">0–100 · applies to the current input and picture mode.</p>
-      </section>
+      <section class="schedule" aria-labelledby="schedule-heading">
+        <div class="section-heading"><h2 id="schedule-heading">Schedule</h2><button id="enabled" class="switch" role="switch" aria-checked="true" aria-label="Enable schedule" data-config="enabled"><span></span></button></div>
+        <p id="next-change" class="next-change">Checking the schedule…</p>
+        <div class="control-row time-row"><span>Blue light on</span><div class="stepper time"><button data-time="start" data-step="-15" aria-label="Start 15 minutes earlier">−</button><output id="start">9:00 PM</output><button data-time="start" data-step="15" aria-label="Start 15 minutes later">+</button></div></div>
+        <div class="control-row time-row"><span>Blue light off</span><div class="stepper time"><button data-time="end" data-step="-15" aria-label="End 15 minutes earlier">−</button><output id="end">6:00 AM</output><button data-time="end" data-step="15" aria-label="End 15 minutes later">+</button></div></div>
+        <p class="hint time-hint">Every day, using the TV’s local time.</p>
 
-      <section class="card details-card">
-        <div class="card-heading"><div><p class="eyebrow">READY WHEN YOU ARE</p><h2>Always in step</h2></div><span class="status-dot" id="health-dot"></span></div>
-        <div class="setting-line"><div><span class="field-label">Start with the TV</span><p>Keep working with this app closed</p></div><button id="autostart" class="switch" role="switch" aria-checked="false" aria-label="Start with the TV"><span></span></button></div>
-        <div class="detail"><span>Control</span><strong id="control-status">Connecting</strong></div>
-        <div class="detail"><span>Next transition</span><strong id="transition-time">—</strong></div>
-        <div class="detail"><span>Picture mode</span><strong id="picture-mode">—</strong></div>
-        <div class="detail"><span>Last checked</span><strong id="last-checked">—</strong></div>
-        <p class="hint">Catches up after startup or wake. Your TV stays asleep when it’s off.</p>
+        <div class="schedule-brightness">
+          <div class="control-row"><span>Schedule pixel brightness</span><button id="manageBrightness" class="switch" role="switch" aria-checked="false" aria-label="Schedule pixel brightness" data-config="manageBrightness"><span></span></button></div>
+          <div id="brightness-settings" hidden>
+            <div class="control-row sub-row"><span>At night</span><div class="stepper brightness"><button data-brightness="nightBrightness" data-step="-5" aria-label="Decrease night brightness">−</button><output id="nightBrightness">100</output><button data-brightness="nightBrightness" data-step="5" aria-label="Increase night brightness">+</button></div></div>
+            <div class="control-row sub-row"><span>By day</span><div class="stepper brightness"><button data-brightness="dayBrightness" data-step="-5" aria-label="Decrease day brightness">−</button><output id="dayBrightness">100</output><button data-brightness="dayBrightness" data-step="5" aria-label="Increase day brightness">+</button></div></div>
+          </div>
+        </div>
+
+        <div class="startup"><div class="control-row"><span>Start with the TV</span><button id="autostart" class="switch" role="switch" aria-checked="false" aria-label="Start with the TV"><span></span></button></div><p class="hint">The schedule runs with this app closed.</p></div>
       </section>
     </div>
 
-    <footer><div id="notice" role="status" aria-live="polite">Use the arrows and OK on your remote, or point and click.</div><div class="footer-actions"><button id="discard" disabled>Discard</button><button id="save" class="primary" disabled>Save schedule</button></div></footer>
-    <div id="error" class="error" role="alert" hidden></div>
-    <div class="bottom-line"><span>Night Mode Scheduler <span id="version">1.0.0</span></span><span id="preview-label">Made for a quieter evening.</span></div>
+    <footer><p id="notice" role="status" aria-live="polite">Arrows to move · OK to select · Back to close</p><div class="footer-actions"><button id="discard" class="secondary" disabled>Discard</button><button id="save" class="primary" disabled>Save changes</button></div></footer>
+    <div id="error" role="alert" hidden></div>
   </main>
   <script src="app.js"></script>
 </body>

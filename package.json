@@ -7,7 +7,11 @@
   "scripts": {
     "test": "node --test test/*.test.js",
     "preview": "node tools/preview.js",
-    "build": "python tools/package.py"
+    "build": "python tools/package.py",
+    "test:ui": "node tools/test-focus.js"
   },
-  "devDependencies": {"@webos-tools/cli": "3.2.6"}
+  "devDependencies": {
+    "@webos-tools/cli": "3.2.6",
+    "playwright": "1.58.2"
+  }
 }

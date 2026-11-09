@@ -76,3 +76,24 @@ the IPK, and startup status checks execute permission rather than existence.
 - Check other TV models/releases before claiming broader compatibility.
 
 The submission draft deliberately leaves human review pending.
+
+## Remote focus and layout refinement
+
+The TV owner tested physical cursor navigation and blue light toggling, and
+reported focus disappearing after pressing OK. The UI temporarily disabled
+the focused button while applying settings, causing webOS to blur it.
+
+The blue light switch now stays focusable while a request is pending; duplicate
+requests are guarded. Completed actions also restore focus when needed, using
+an enabled adjacent control if the original became unavailable. A viewer who
+moved focus during a request keeps their new focus.
+
+`npm run test:ui` checks repeated OK toggles, resume, brightness limits, save,
+focus moved during a pending request, and collapsed/expanded layouts at both
+1920×1080 and 1280×720. These checks run in GitHub Actions as well.
+
+On the physical TV, two consecutive Enter events changed blue light off and
+on, returned to the initial setting, and retained `blue-toggle` as the active
+element after each response. The revised settings layout was inspected from
+a TV-rendered screenshot. Full physical-remote acceptance and human code
+review remain pending.

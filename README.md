@@ -44,6 +44,9 @@ and enables startup on first launch. Subsequent launches preserve the startup
 switch. Default scheduling is enabled; the app immediately applies the correct
 blue light setting for the current local time.
 
+The interface separates current picture controls from the daily schedule.
+Optional day/night brightness controls expand only when enabled.
+
 ## Behavior
 
 The service checks every 10 seconds, so scheduled changes occur within about
@@ -69,6 +72,8 @@ itself uses Node 8-compatible syntax and only platform-provided dependencies.
 ```sh
 npm ci --ignore-scripts
 npm test
+npx playwright install chromium
+npm run test:ui
 npm run build
 npm run preview
 ```
