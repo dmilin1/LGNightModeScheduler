@@ -36,7 +36,7 @@ can vary with picture modes, firmware, or model.
 Download the `.ipk` from Releases and install it with webOS Dev Manager, or:
 
 ```sh
-ares-install --device YOUR_TV io.github.dmilin1.nightmodescheduler_1.0.0_all.ipk
+ares-install --device YOUR_TV io.github.dmilin1.nightmodescheduler_1.0.1_all.ipk
 ares-launch --device YOUR_TV io.github.dmilin1.nightmodescheduler
 ```
 

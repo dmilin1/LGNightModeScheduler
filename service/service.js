@@ -64,7 +64,7 @@ function status(result) {
   try { fs.accessSync(HOOK, fs.constants.X_OK); result.autostartEnabled = true; }
   catch (err) { result.autostartEnabled = false; }
   result.autostartConfigured = fs.existsSync(STARTUP_PREF);
-  result.version = '1.0.0';
+  result.version = require('./package.json').version;
   return result;
 }
 function register(name, callback) {

@@ -195,7 +195,7 @@
   var demo = {
     config: {enabled: true, start: '21:00', end: '06:00', manageBrightness: false, nightBrightness: 100, dayBrightness: 100},
     actual: {eyeComfortMode: 'on', backlight: 100, dimension: {pictureMode: 'normal', input: 'hdmi1'}},
-    autostartEnabled: true, autostartConfigured: true, override: null, error: null, version: '1.0.0'
+    autostartEnabled: true, autostartConfigured: true, override: null, error: null, version: '1.0.1'
   };
   function demoCall(uri, payload) {
     return new Promise(function (resolve) {
