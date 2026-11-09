@@ -107,4 +107,4 @@ It never modifies system partitions or the existing `nightmode.sh` script.
 ## License and development
 
 MIT. Codex assisted with implementation and automated testing. See
-`docs/TESTING.md` for what has actually been verified and what remains to test.
+`docs/TESTING.md` for the testing record and verified hardware.

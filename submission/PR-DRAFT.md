@@ -12,12 +12,16 @@ with optional day/night pixel brightness values and temporary manual controls.
 
 ### Testing
 
-See `docs/TESTING.md` for automated coverage and hardware results. Complete
-human TV testing and code review before opening this submission. Record the
-TV model, firmware, webOS release, and results honestly in the upstream template.
+Tested on LG OLED65C1PUB, firmware 03.53.45, webOS 6.5.3-47, Node.js 8.12.0.
+The maintainer confirmed that human code review and acceptance testing passed,
+including physical-remote controls, cold boot/wake recovery, overnight 9 PM and
+6 AM transitions, and the input/picture modes used on this TV.
+
+See `docs/TESTING.md` for automated coverage and instrumented hardware results.
+Other TV models/releases have not been verified.
 
 ### AI disclosure
 
 Codex assisted substantially with implementation and automated testing.
-Human development/review: **pending**.
-Do not mark the upstream human-review checklist complete until it is complete.
+Human review and acceptance testing: **completed**, as confirmed by the maintainer.
+The maintainer remains responsible for the code and the submission.

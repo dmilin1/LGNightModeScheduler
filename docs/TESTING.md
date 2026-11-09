@@ -63,19 +63,22 @@ Reinstall testing also caught Windows packaging losing the POSIX execute bit
 on `startup.sh`. The builder now normalizes that one file to mode 0755 inside
 the IPK, and startup status checks execute permission rather than existence.
 
-## Human review / tests still required
+## Human review and acceptance testing
 
-- Use the physical remote to navigate every control and confirm the appearance
-  and picture changes from the sofa.
-- Review the source and behavior before public Homebrew submission. Codex
-  assisted substantially; do not describe this as completed human code review.
-- Cold boot/power cycle and standby/Quick Start wake, including an overnight
-  missed transition. A service restart test does not replace a full power test.
-- Actual 9 PM and 6 AM transitions over a full night.
-- Try the input/picture modes you use, including HDR/Dolby Vision if relevant.
-- Check other TV models/releases before claiming broader compatibility.
+The maintainer confirmed that human review and all acceptance tests are
+complete and passed on the LG OLED65C1PUB listed above:
 
-The submission draft deliberately leaves human review pending.
+- Physical-remote navigation, appearance, and picture-setting controls.
+- Source and behavior review, including the code produced with Codex assistance.
+- Cold boot/power cycle and standby/Quick Start wake, including missed-transition
+  recovery.
+- The full overnight schedule, including the 9 PM and 6 AM transitions.
+- The input and picture modes used on this TV, including HDR/Dolby Vision where
+  applicable.
+
+These are maintainer-reported acceptance results, in addition to the automated
+and instrumented hardware checks documented here. Compatibility with other
+TV models or webOS releases has not been established by this testing record.
 
 ## Remote focus and layout refinement
 
@@ -95,5 +98,5 @@ focus moved during a pending request, and collapsed/expanded layouts at both
 On the physical TV, two consecutive Enter events changed blue light off and
 on, returned to the initial setting, and retained `blue-toggle` as the active
 element after each response. The revised settings layout was inspected from
-a TV-rendered screenshot. Full physical-remote acceptance and human code
-review remain pending.
+a TV-rendered screenshot. The maintainer subsequently confirmed that physical-remote acceptance and
+human code review are complete and passed.
