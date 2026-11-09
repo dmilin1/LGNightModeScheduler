@@ -40,4 +40,15 @@ jobs:
       - name: Publish release files
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" dist/* --repo "${{ github.repository }}" --draft --generate-notes
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_REPO: ${{ github.repository }}
+        run: |
+          if gh release view "$RELEASE_TAG" --repo "$RELEASE_REPO" >/dev/null 2>&1; then
+            if [ "$(gh release view "$RELEASE_TAG" --repo "$RELEASE_REPO" --json isDraft --jq .isDraft)" = true ]; then
+              gh release upload "$RELEASE_TAG" dist/* --repo "$RELEASE_REPO" --clobber
+            else
+              echo "Published release already exists; preserving reviewed assets."
+            fi
+          else
+            gh release create "$RELEASE_TAG" dist/* --repo "$RELEASE_REPO" --draft --generate-notes
+          fi
