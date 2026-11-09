@@ -100,3 +100,21 @@ on, returned to the initial setting, and retained `blue-toggle` as the active
 element after each response. The revised settings layout was inspected from
 a TV-rendered screenshot. The maintainer subsequently confirmed that physical-remote acceptance and
 human code review are complete and passed.
+
+## Upgrade recovery (v1.0.2)
+
+Updating from an already-running install exposed webOS restarting the service
+with its old jailed identity before its root registration was restored.
+The UI now invokes a root preparation helper through Homebrew Channel. It
+elevates the registration, then stops only a process whose title exactly
+matches this service and whose effective UID is non-root. Healthy root
+instances and unrelated processes are left alone.
+
+Three additional tests cover the exact process/UID guard, elevation failure,
+and refusal to run without root. The full suite now contains 20 tests.
+The 1.0.1→1.0.2 upgrade was tested on the same TV: without manual intervention,
+the UI reconnected, the service was running as root, existing settings and
+startup preference were preserved, and current picture status read correctly.
+
+This helper is new code after the maintainer's v1.0.0 review. That earlier
+confirmation does not attest to human review of the new helper.

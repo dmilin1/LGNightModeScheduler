@@ -110,7 +110,7 @@
     var begin = preview ? Promise.resolve() : call('luna://org.webosbrew.hbchannel.service/getConfiguration', {}).then(function (config) {
       if (!config.root) throw new Error('Homebrew Channel needs root access. Open Homebrew Channel and check its root status.');
       text('connection', 'Preparing TV permissions…');
-      return call('luna://org.webosbrew.hbchannel.service/exec', {command: '/media/developer/apps/usr/palm/services/org.webosbrew.hbchannel.service/elevate-service io.github.dmilin1.nightmodescheduler.service'}).then(function (result) {
+      return call('luna://org.webosbrew.hbchannel.service/exec', {command: '/usr/bin/node /media/developer/apps/usr/palm/services/io.github.dmilin1.nightmodescheduler.service/prepare-service.js'}).then(function (result) {
         if (result.code && result.code !== 0) throw new Error('Service elevation failed: ' + (result.stderrString || result.stdoutString || result.code));
       });
     });
@@ -195,7 +195,7 @@
   var demo = {
     config: {enabled: true, start: '21:00', end: '06:00', manageBrightness: false, nightBrightness: 100, dayBrightness: 100},
     actual: {eyeComfortMode: 'on', backlight: 100, dimension: {pictureMode: 'normal', input: 'hdmi1'}},
-    autostartEnabled: true, autostartConfigured: true, override: null, error: null, version: '1.0.1'
+    autostartEnabled: true, autostartConfigured: true, override: null, error: null, version: '1.0.2'
   };
   function demoCall(uri, payload) {
     return new Promise(function (resolve) {
