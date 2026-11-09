@@ -21,7 +21,8 @@ status, manual controls, and optional pixel brightness scheduling.
 
 ## Requirements
 
-- A rooted LG webOS TV and Homebrew Channel with working root access.
+- A rooted LG TV running webOS 6.5.3 or newer, and Homebrew Channel with
+  working root access.
 - JavaScript service runtime Node.js 8 or newer. Initial development targets
   webOS 6.5.3 on an LG OLED65C1PUB. Other models/releases are not yet verified.
 - The TV's `picture` settings must expose `eyeComfortMode` and `backlight`.
